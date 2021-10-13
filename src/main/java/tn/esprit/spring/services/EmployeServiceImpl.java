@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ import tn.esprit.spring.repository.TimesheetRepository;
 @Service
 public class EmployeServiceImpl implements IEmployeService {
 
+	private static final Logger LOG = LogManager.getLogger(EmployeServiceImpl.class);
+
+	
 	@Autowired
 	EmployeRepository employeRepository;
 	@Autowired
@@ -75,16 +80,42 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	public int ajouterContrat(Contrat contrat) {
-		contratRepoistory.save(contrat);
+
+		try{
+			LOG.info("le service ajouterContrat a commencé");
+			LOG.debug("je VAIS ajouter un contrat : ");
+			
+			contratRepoistory.save(contrat);
+			
+			LOG.debug("je viens  de finir l'ajout d'un contrat : ");
+			LOG.info("contrat ajouté sans errors : ");
+
+		}catch (Exception e) {
+			LOG.error("Erreur dans l'ajout du contrat : " +e);
+		}
 		return contrat.getReference();
 	}
 
 	public void affecterContratAEmploye(int contratId, int employeId) {
-		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
+		try
+		{
+			LOG.info("Affectation du contrat a employe : ");
+			LOG.debug("Selection du contrat : ");
+			Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
+			LOG.debug("Contrat selectionné : ");
+			LOG.debug("Selection de l'employe");
+			Employe employeManagedEntity = employeRepository.findById(employeId).get();
+			LOG.debug("Employé selectionné : ");
 
-		contratManagedEntity.setEmploye(employeManagedEntity);
-		contratRepoistory.save(contratManagedEntity);
+			LOG.debug("Affecter contrat a employe : ");
+			contratManagedEntity.setEmploye(employeManagedEntity);
+			contratRepoistory.save(contratManagedEntity);
+			LOG.info("Contrat affecté à employe sans errors : ");
+
+		}catch (Exception e) {
+			LOG.error("Erreur dans l'affectation du contrat : " +e);
+		}
+		
 		
 	}
 
@@ -107,8 +138,19 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	public void deleteContratById(int contratId) {
-		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
-		contratRepoistory.delete(contratManagedEntity);
+		try{
+			
+			LOG.info("suppression d'un contrat : ");
+			LOG.debug("selection du contrat a supprimé : ");
+			Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
+			LOG.debug("suppression du contrat : ");
+			contratRepoistory.delete(contratManagedEntity);
+			LOG.debug("je viens de supprimer un contrat : ");
+			
+			LOG.info("suppression without errors : " );
+		}catch(Exception e){
+			LOG.error("Erreur dans l'affectation du contrat: "+e);
+		}
 
 	}
 
@@ -130,7 +172,18 @@ public class EmployeServiceImpl implements IEmployeService {
 
 	}
 	public void deleteAllContratJPQL() {
-         employeRepository.deleteAllContratJPQL();
+		try{
+			LOG.info("Suppression de tout les contrats : ");
+			
+			LOG.debug("Je vais supprimer tous les contrats : ");
+	        employeRepository.deleteAllContratJPQL();
+			LOG.debug("Je viens de supprimer tous les contrats : ");
+
+			LOG.info("Contrats supprimes without errors : ");
+
+		}catch (Exception e) {
+			LOG.error("Erreur dans la suppression de tous les contrats : " +e);
+		}
 	}
 	
 	public float getSalaireByEmployeIdJPQL(int employeId) {
