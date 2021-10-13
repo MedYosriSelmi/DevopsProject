@@ -20,8 +20,18 @@ import tn.esprit.spring.repository.ContratRepository;
 import tn.esprit.spring.repository.EmployeRepository;
 import tn.esprit.spring.services.IEmployeService;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 @RunWith(SpringRunner.class)
+@SpringBootTest
 public class EmployeServiceImplTest {
 
 	@Autowired
@@ -115,5 +125,115 @@ public class EmployeServiceImplTest {
 		employeS.deleteEmployeById(id);
 	}
 	
+	
+	
 
+	//test employer  Ahmed Mrabet
+	
+	
+	private static final Logger l = LogManager.getLogger(EmployeServiceImplTest.class);
+	@Test
+	public void testGetEmployePrenomById() {
+		try
+		{
+		String prenomEmp = employeS.getEmployePrenomById(2);
+		l.info("Prenom de lemploye est :"+prenomEmp);
+		assertThat(prenomEmp).isEqualTo("mohamed");
+		}catch (Exception e) {
+			l.error("Erreur dans Get EmployePrenom By Id : " +e);
+		}
+		
+
+	}
+
+	@Test
+	public void testAjouterEmploye() {
+		try
+		{
+		int id = employeS.ajouterEmploye(
+				new Employe("Ahmed", "Mrabet", "Ahmed.mrabet@esprit.tn", true, Role.INGENIEUR));
+	
+		assertThat(id).isGreaterThan(0);
+		l.info("Employe added successfully!");
+		}catch (Exception e) {
+			l.error("Erreur dans Ajout d'Employe : " +e);
+		}
+	}
+
+	@Test
+	public void testgetAllEmployes() {
+		try
+		{	
+		List<Employe> employes = employeS.getAllEmployes();
+
+		assertThat(employes).size().isGreaterThan(0);
+	}catch (Exception e) {
+		l.error("Erreur dans get All Employes : " +e);
+	}
+	}
+
+	@Test
+	public void testMettreAjourEmailByEmployeId() {
+		try
+		{	
+		String email = "bohmid.ahmed@spring.tn";
+
+		employeS.mettreAjourEmailByEmployeId(email, 10);
+
+		Employe e = employeS.getEmployerById(10);
+
+		assertThat(e.getEmail()).isEqualTo(email);
+		}catch (Exception e) {
+		l.error("Erreur dans Mettre A jour Email By Employe Id : " +e);
+	}
+	}
+
+	@Test
+	public void affecterEmployeADepartement()
+	{
+		try
+		{	
+		int id = employeS.ajouterEmploye(
+		new Employe("mohammed", "Zied", "Zied.hamma@spring.tn", true, Role.TECHNICIEN));
+		
+		employeS.affecterEmployeADepartement(id, 2);
+		l.info("Employe avec id=" + id + " added successfully to Departement avec id=" + 2);
+		}catch (Exception e) {
+		l.error("Erreur dans affecter Employe A Departement : " +e);
+	}
+		
+	}
+
+	@Test
+	public void desaffecterEmployeDuDepartement()
+	{
+		try
+		{	
+		employeS.desaffecterEmployeDuDepartement(13, 2);
+		}catch (Exception e) {
+		l.error("Erreur dans desaffecter Employe Du Departement : " +e);
+	}
+	}
+	
+
+	@Test
+	public void testDeleteEmployeById()
+	{
+		try
+		{	
+		employeS.deleteEmployeById(13);
+		
+		Employe e = employeS.getEmployerById(13);
+		
+		assertThat(e).isNull();
+		l.info("Employe deleted successfully!");
+		}catch (Exception e) {
+			l.error("Erreur dans Delete Employe By Id : " +e);
+		}
+	}
+	
 }
+	
+	
+	
+
