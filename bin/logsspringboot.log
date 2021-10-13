@@ -884,30 +884,3 @@ Verify the connector's configuration, identify and stop any process that's liste
 2021-10-06 23:07:51.070  INFO 20252 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-10-06 23:07:51.070  INFO 20252 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2021-10-06 23:07:51.086  INFO 20252 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2021-10-13 23:09:33.414  INFO 9952 --- [main] tn.esprit.spring.EmployeServiceImplTest  : Starting EmployeServiceImplTest on DESKTOP-D2021HN with PID 9952 (started by Ahmed in C:\Users\Ahmed\Documents\DevopsProject)
-2021-10-13 23:09:33.427  INFO 9952 --- [main] tn.esprit.spring.EmployeServiceImplTest  : No active profile set, falling back to default profiles: default
-2021-10-13 23:09:34.875  INFO 9952 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
-2021-10-13 23:09:35.020  INFO 9952 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 135ms. Found 6 repository interfaces.
-2021-10-13 23:09:35.756  INFO 9952 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$71abe0ae] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-10-13 23:09:36.434  INFO 9952 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2021-10-13 23:09:36.850  INFO 9952 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2021-10-13 23:09:37.145  INFO 9952 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
-	name: default
-	...]
-2021-10-13 23:09:37.329  INFO 9952 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.9.Final}
-2021-10-13 23:09:37.335  INFO 9952 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2021-10-13 23:09:37.794  INFO 9952 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-2021-10-13 23:09:38.678  INFO 9952 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
-2021-10-13 23:09:40.494  INFO 9952 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-10-13 23:09:41.345  INFO 9952 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
-2021-10-13 23:09:43.635  INFO 9952 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-10-13 23:09:43.756  WARN 9952 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-10-13 23:09:44.492  INFO 9952 --- [main] tn.esprit.spring.EmployeServiceImplTest  : Started EmployeServiceImplTest in 11.744 seconds (JVM running for 14.732)
-2021-10-13 23:09:44.650  INFO 9952 --- [main] tn.esprit.spring.config.LoggingAspect    : In method getEmployePrenomById : 
-2021-10-13 23:09:44.861  INFO 9952 --- [main] tn.esprit.spring.config.LoggingAspect    : Method execution time: 213 milliseconds.
-2021-10-13 23:09:44.861  INFO 9952 --- [main] tn.esprit.spring.config.LoggingAspect    : Out of method without errors :getEmployePrenomById
-2021-10-13 23:09:44.862  INFO 9952 --- [main] tn.esprit.spring.EmployeServiceImplTest  : Prenom de lemploye est :mohamed
-2021-10-13 23:09:44.992  INFO 9952 --- [Thread-2] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-2021-10-13 23:09:44.998  INFO 9952 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-10-13 23:09:45.004  INFO 9952 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2021-10-13 23:09:45.014  INFO 9952 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
