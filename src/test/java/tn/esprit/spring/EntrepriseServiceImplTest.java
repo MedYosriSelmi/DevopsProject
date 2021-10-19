@@ -1,6 +1,7 @@
 package tn.esprit.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
+<<<<<<< HEAD
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,22 @@ import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.repository.EntrepriseRepository;
 import tn.esprit.spring.services.IEntrepriseService;
 
+=======
+import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import tn.esprit.spring.entities.Departement;
+import tn.esprit.spring.entities.Entreprise;
+import tn.esprit.spring.repository.EntrepriseRepository;
+import tn.esprit.spring.services.IEntrepriseService;
+
+>>>>>>> main
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class EntrepriseServiceImplTest   {
@@ -32,13 +49,17 @@ public class EntrepriseServiceImplTest   {
 	
 	@Autowired
 	EntrepriseRepository entreRep;
+<<<<<<< HEAD
 	
 	@Autowired
 	DepartementRepository departementRerpository;
+=======
+>>>>>>> main
 
 	private Entreprise entreprise;
 	private Departement department;
 	
+<<<<<<< HEAD
 	@Before
 	public void init(){
 		
@@ -48,6 +69,8 @@ public class EntrepriseServiceImplTest   {
 		
 	}
 	
+=======
+>>>>>>> main
 	
 	@Test
 	public void ajouterEntrepriseTest  ()
@@ -109,6 +132,7 @@ public class EntrepriseServiceImplTest   {
 		L.info("Entreprise with id=" + entreId +" geted successfully!");
 	}
 	
+<<<<<<< HEAD
 	@Test
 	public void ajouterDepartementTest() {
 		Departement depTest = new Departement("production");
@@ -156,4 +180,10 @@ public class EntrepriseServiceImplTest   {
 		entreService.deleteEntrepriseById(entreId);
 		
 	}
+=======
+
+	
+	
+	
+>>>>>>> main
 }
