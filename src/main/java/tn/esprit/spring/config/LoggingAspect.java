@@ -16,13 +16,13 @@ public class LoggingAspect {
 	
 	private static final Logger l = LogManager.getLogger(LoggingAspect.class);
 	
-	@Before("execution(* tn.esprit.spring.services.EntrepriseServiceImpl.*(..))")
+	@Before("execution(* tn.esprit.spring.services.*.*(..))")
 	public void logMethodEntry(JoinPoint joinPoint) {
 	String name = joinPoint.getSignature().getName();
 	l.info("In method " + name + " : ");
 	}
 	
-	@After("execution(* tn.esprit.spring.services.EntrepriseServiceImpl.*(..))")
+	@After("execution(* tn.esprit.spring.services.*.*(..))")
 	public void logMethodExit(JoinPoint JoinPoint){
 		String name = JoinPoint.getSignature().getName();
 		l.info("Out of method without errors :"+name);
