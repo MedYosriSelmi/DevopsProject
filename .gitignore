@@ -29,3 +29,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### ! ###
+.bin/
+.settings/
+.mvn/
+.target/
