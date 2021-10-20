@@ -43,34 +43,52 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
-		Employe employe = employeRepository.findById(employeId).get();
-		employe.setEmail(email);
-		employeRepository.save(employe);
+		Optional<Employe> employe = employeRepository.findById(employeId);
+		Employe emp=null;
+		if (employe.isPresent()) {
+			emp = employe.get();
+		}
+		if ((emp!=null)) {
+			emp.setEmail(email);
+			employeRepository.save(emp);
+		}
+		
 
 	}
 
+		
 	@Transactional	
 	public void affecterEmployeADepartement(int employeId, int depId) {
-		Departement depManagedEntity = deptRepoistory.findById(depId).get();
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
+		Optional<Departement> depManagedEntity = deptRepoistory.findById(depId);
 
-		if(depManagedEntity.getEmployes() == null){
+		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
+		if (depManagedEntity.isPresent() && employeManagedEntity.isPresent())
+		{
+			Departement departement = depManagedEntity.get();
+			
+			Employe employe = employeManagedEntity.get();
+			
+			if((departement.getEmployes() == null)){
 
-			List<Employe> employes = new ArrayList<>();
-			employes.add(employeManagedEntity);
-			depManagedEntity.setEmployes(employes);
-		}else{
+				List<Employe> employes = new ArrayList<>();
+				employes.add(employe);
+				departement.setEmployes(employes);
+			}else{
 
-			depManagedEntity.getEmployes().add(employeManagedEntity);
-
+				departement.getEmployes().add(employe);
+			}
 		}
-
-	}
+		
+		}
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
-		Departement dep = deptRepoistory.findById(depId).get();
-
+		Optional<Departement> depManagedEntity = deptRepoistory.findById(depId);
+		Departement dep=null;
+		if (depManagedEntity.isPresent()) {
+			dep = depManagedEntity.get();
+		}
+		
 		int employeNb = dep.getEmployes().size();
 		for(int index = 0; index < employeNb; index++){
 			if(dep.getEmployes().get(index).getId() == employeId){
@@ -78,6 +96,7 @@ public class EmployeServiceImpl implements IEmployeService {
 				break;//a revoir
 			}
 		}
+		
 	}
 
 	public int ajouterContrat(Contrat contrat) {
@@ -148,6 +167,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	
 	public void deleteEmployeById(int employeId)
 	{
+		
 		Optional<Employe> employe = employeRepository.findById(employeId);
 		Employe emp=null;
 		if (employe.isPresent()) {
