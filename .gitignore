@@ -36,3 +36,4 @@ build/
 .settings/
 .mvn/
 .target/
+*.log
