@@ -23,7 +23,6 @@ import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 
 
 import java.util.List;
@@ -91,8 +90,8 @@ public class EmployeServiceImplTest {
 		this.contrat.setEmploye(this.employe);
 		int ref=employeS.ajouterContrat(this.contrat);
 		// le service employeS.ajouterContrat(this.contrat) retourne un int qui est la réf
-
-		Assert.assertTrue(contratRepository.findById(ref).get().getReference() > 0);
+		Contrat c=contratRepository.findById(ref).get();
+		Assert.assertTrue(c.getReference()> 0);
 		employeS.deleteContratById(ref);
 		employeS.deleteEmployeById(id);
 
