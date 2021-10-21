@@ -80,7 +80,9 @@ public class EmployeServiceImplTest {
 		if (contratOpt.isPresent()) {
 			c=contratOpt.get();
 		}
-		Assert.assertTrue(c.getReference()> 0);
+		if (c!=null) {
+			Assert.assertTrue(c.getReference()> 0);
+		}
 		employeS.deleteContratById(ref);
 		employeS.deleteEmployeById(id);
 
@@ -105,9 +107,13 @@ public class EmployeServiceImplTest {
 		if (employeOpt.isPresent()) {
 			emp=employeOpt.get();
 		}
-		
-		int refContrat=con.getReference();
-		int idContratEmploye = emp.getContrat().getReference();
+		int refContrat=0;
+		int idContratEmploye =0;
+		if ((con!=null)&&(emp!=null)){
+			refContrat=con.getReference();
+			idContratEmploye = emp.getContrat().getReference();
+		}
+
 		// Comparaison pour vérifier si le contrat a bien été affecté
 		Assert.assertEquals(idContratEmploye,refContrat);
 		employeS.deleteContratById(ref);
