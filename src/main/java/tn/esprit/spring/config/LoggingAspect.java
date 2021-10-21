@@ -23,8 +23,8 @@ public class LoggingAspect {
 	}
 	
 	@After("execution(* tn.esprit.spring.services.*.*(..))")
-	public void logMethodExit(JoinPoint JoinPoint){
-		String name = JoinPoint.getSignature().getName();
+	public void logMethodExit(JoinPoint joinPoint){
+		String name = joinPoint.getSignature().getName();
 		l.info("Out of method without errors :"+name);
 	}
 	

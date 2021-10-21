@@ -35,5 +35,3 @@ build/
 .bin/
 .settings/
 .mvn/
-.target/
-*.log
