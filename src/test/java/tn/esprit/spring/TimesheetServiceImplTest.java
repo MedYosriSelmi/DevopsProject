@@ -13,6 +13,8 @@ import java.util.Date;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import tn.esprit.spring.config.LoggingAspect;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.TimesheetPK;
 import tn.esprit.spring.repository.MissionRepository;
@@ -30,6 +32,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TimesheetServiceImplTest {
+	
+	private static final Logger l = LogManager.getLogger(LoggingAspect.class);
 
 	@Autowired
 	ITimesheetService timesheetService;
@@ -86,6 +90,7 @@ public class TimesheetServiceImplTest {
 	@Test
 	public void TestfindAllMissionByEmployeJPQL() {
 
+		l.info("size findAllMissionByEmployeJPQL() --->"+timesheetService.findAllMissionByEmployeJPQL(1).size());
 		assertThat(timesheetService.findAllMissionByEmployeJPQL(1).size()).isGreaterThan(0);
 
 	}

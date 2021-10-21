@@ -14,14 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import tn.esprit.spring.entities.Contrat;
+import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.repository.ContratRepository;
 import tn.esprit.spring.repository.EmployeRepository;
 import tn.esprit.spring.services.IEmployeService;
+import tn.esprit.spring.services.IEntrepriseService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 
 
 import java.util.List;
@@ -42,6 +43,9 @@ public class EmployeServiceImplTest {
 	
 	@Autowired
 	EmployeRepository employeRepository;
+	
+	@Autowired
+	IEntrepriseService entrepriseS;
 	
 	private Employe employe;
 	private Contrat contrat;
@@ -66,28 +70,19 @@ public class EmployeServiceImplTest {
 
 
 	@Test
-	public void ajouterEmployeTest(){
-		this.employe = new Employe();
-		this.employe.setPrenom("Selim");
-		this.employe.setNom("CHIKH ZAOUALI");
-		this.employe.setEmail("selim.chikhzaouali@esprit.tn");
-		this.employe.setActif(true);
-		this.employe.setRole(Role.INGENIEUR);
-		int id=employeS.ajouterEmploye(this.employe);
-		// le service employeS.ajouterEmploye(employe) retourne un int qui est l'id
-		
-		Assert.assertTrue(id>0);
-		employeS.deleteEmployeById(id);
-	}
-
-	@Test
 	public void ajouterContratTest() {
 		int id=employeS.ajouterEmploye(this.employe);
 		this.contrat.setEmploye(this.employe);
 		int ref=employeS.ajouterContrat(this.contrat);
 		// le service employeS.ajouterContrat(this.contrat) retourne un int qui est la réf
-
-		Assert.assertTrue(contratRepository.findById(ref).get().getReference() > 0);
+		Optional<Contrat> contratOpt = contratRepository.findById(ref);
+		Contrat c=null;
+		if (contratOpt.isPresent()) {
+			c=contratOpt.get();
+		}
+		if (c!=null) {
+			Assert.assertTrue(c.getReference()> 0);
+		}
 		employeS.deleteContratById(ref);
 		employeS.deleteEmployeById(id);
 
@@ -101,8 +96,26 @@ public class EmployeServiceImplTest {
 		
 		employeS.affecterContratAEmploye(ref, id);
 		
+		Optional<Contrat> contratOpt = contratRepository.findById(ref);
+		Contrat con=null;
+		if (contratOpt.isPresent()) {
+			con=contratOpt.get();
+		}
+		
+		Optional<Employe> employeOpt = employeRepository.findById(id);
+		Employe emp=null;
+		if (employeOpt.isPresent()) {
+			emp=employeOpt.get();
+		}
+		int refContrat=0;
+		int idContratEmploye =0;
+		if ((con!=null)&&(emp!=null)){
+			refContrat=con.getReference();
+			idContratEmploye = emp.getContrat().getReference();
+		}
+
 		// Comparaison pour vérifier si le contrat a bien été affecté
-		Assert.assertEquals(employeRepository.findById(id).get().getContrat().getReference(), contratRepository.findById(ref).get().getReference());
+		Assert.assertEquals(idContratEmploye,refContrat);
 		employeS.deleteContratById(ref);
 		employeS.deleteEmployeById(id);
 		
@@ -128,7 +141,7 @@ public class EmployeServiceImplTest {
 	
 	
 
-	//test employer  Ahmed Mrabet
+	//test employé  Ahmed Mrabet
 	
 	
 	private static final Logger l = LogManager.getLogger(EmployeServiceImplTest.class);
@@ -136,14 +149,17 @@ public class EmployeServiceImplTest {
 	public void testGetEmployePrenomById() {
 		try
 		{
-		String prenomEmp = employeS.getEmployePrenomById(2);
-		l.info("Prenom de lemploye est :"+prenomEmp);
-		assertThat(prenomEmp).isEqualTo("mohamed");
+			int idE = employeS.ajouterEmploye(
+					new Employe("Ahmed", "mrabet", "ahmed.mrabet@spring.tn", true, Role.TECHNICIEN));
+		String prenomEmp = employeS.getEmployePrenomById(idE);
+		l.info("Prenom de lemploye est : "+prenomEmp);
+		assertThat(prenomEmp).isEqualTo("mrabet");
+		employeS.deleteEmployeById(idE);
 		}catch (Exception e) {
-			l.error("Erreur dans Get EmployePrenom By Id : " +e);
+			l.error(String.format("Erreur dans Get EmployePrenom By Id : %s ",e));
+			
 		}
 		
-
 	}
 
 	@Test
@@ -151,40 +167,39 @@ public class EmployeServiceImplTest {
 		try
 		{
 		int id = employeS.ajouterEmploye(
-				new Employe("Ahmed", "Mrabet", "Ahmed.mrabet@esprit.tn", true, Role.INGENIEUR));
+				new Employe("mrabet", "ahmed", "mrabet.ahmed@esprit.tn", true, Role.INGENIEUR));
 	
 		assertThat(id).isGreaterThan(0);
 		l.info("Employe added successfully!");
-		}catch (Exception e) {
-			l.error("Erreur dans Ajout d'Employe : " +e);
-		}
-	}
-
-	@Test
-	public void testgetAllEmployes() {
-		try
-		{	
+		l.info("verifier la liste des employes");
 		List<Employe> employes = employeS.getAllEmployes();
 
 		assertThat(employes).size().isGreaterThan(0);
-	}catch (Exception e) {
-		l.error("Erreur dans get All Employes : " +e);
+		l.info("la liste des employer n'est pas null");
+		employeS.deleteEmployeById(id);
+		
+		}catch (Exception e) {
+			l.error(String.format("Erreur dans Ajout d'Employe : %s ",e));
+		}
 	}
-	}
+
 
 	@Test
 	public void testMettreAjourEmailByEmployeId() {
 		try
 		{	
 		String email = "bohmid.ahmed@spring.tn";
+		int id = employeS.ajouterEmploye(
+				new Employe("Test1", "test1", "test1.test1@esprit.tn", true, Role.INGENIEUR));
+	
+		employeS.mettreAjourEmailByEmployeId(email, id);
 
-		employeS.mettreAjourEmailByEmployeId(email, 10);
-
-		Employe e = employeS.getEmployerById(10);
+		Employe e = employeS.getEmployerById(id);
 
 		assertThat(e.getEmail()).isEqualTo(email);
+		employeS.deleteEmployeById(id);
 		}catch (Exception e) {
-		l.error("Erreur dans Mettre A jour Email By Employe Id : " +e);
+		l.error(String.format("Erreur dans Mettre A jour Email By Employe Id : %s ",e));
 	}
 	}
 
@@ -193,42 +208,43 @@ public class EmployeServiceImplTest {
 	{
 		try
 		{	
-		int id = employeS.ajouterEmploye(
-		new Employe("mohammed", "Zied", "Zied.hamma@spring.tn", true, Role.TECHNICIEN));
-		
-		employeS.affecterEmployeADepartement(id, 2);
-		l.info("Employe avec id=" + id + " added successfully to Departement avec id=" + 2);
+		int idE = employeS.ajouterEmploye(
+		new Employe("ahmed", "mrabet", "ahmed.mrabet@spring.tn", true, Role.TECHNICIEN));
+		int idD = entrepriseS.ajouterDepartement(
+				new Departement("info"));
+				
+		employeS.affecterEmployeADepartement(idE, idD);
+		l.info("Employe avec id=" + idE + " added successfully to Departement avec id=" + idD);
+		l.info("desaffectaion, de lemployer de departement");
+		employeS.desaffecterEmployeDuDepartement(idE, idD);
+		employeS.deleteEmployeById(idE);
+		entrepriseS.deleteDepartementById(idD);
 		}catch (Exception e) {
-		l.error("Erreur dans affecter Employe A Departement : " +e);
+		l.error(String.format("Erreur dans l'affectaion : %s ",e));
 	}
 		
 	}
 
-	@Test
-	public void desaffecterEmployeDuDepartement()
-	{
-		try
-		{	
-		employeS.desaffecterEmployeDuDepartement(13, 2);
-		}catch (Exception e) {
-		l.error("Erreur dans desaffecter Employe Du Departement : " +e);
-	}
-	}
+	
 	
 
 	@Test
 	public void testDeleteEmployeById()
 	{
+		
 		try
 		{	
-		employeS.deleteEmployeById(13);
+			int id = employeS.ajouterEmploye(
+					new Employe("Ahmed", "Mrabet", "Ahmed.mrabet@esprit.tn", true, Role.INGENIEUR));
 		
-		Employe e = employeS.getEmployerById(13);
+		employeS.deleteEmployeById(id);
+		
+		Employe e = employeS.getEmployerById(id);
 		
 		assertThat(e).isNull();
 		l.info("Employe deleted successfully!");
 		}catch (Exception e) {
-			l.error("Erreur dans Delete Employe By Id : " +e);
+			l.error(String.format("Erreur dans Delete Employe By Id : %s ",e));
 		}
 	}
 	
