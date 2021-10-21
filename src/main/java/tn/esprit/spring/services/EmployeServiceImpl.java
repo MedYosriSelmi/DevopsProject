@@ -87,7 +87,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		Departement dep=null;
 		if (depManagedEntity.isPresent()) {
 			dep = depManagedEntity.get();
-		}
+		
 		
 		int employeNb = dep.getEmployes().size();
 		for(int index = 0; index < employeNb; index++){
@@ -96,7 +96,7 @@ public class EmployeServiceImpl implements IEmployeService {
 				break;//a revoir
 			}
 		}
-		
+		}
 	}
 
 	public int ajouterContrat(Contrat contrat) {
@@ -170,20 +170,21 @@ public class EmployeServiceImpl implements IEmployeService {
 		
 		Optional<Employe> employe = employeRepository.findById(employeId);
 		Employe emp=null;
-		if (employe.isPresent()) {
+		if (employe.isPresent()) 
 			emp=employe.get();
-		}
+		
 		//Desaffecter l'employe de tous les departements
 		//c'est le bout master qui permet de mettre a jour
 		//la table d'association
-		
+		if (emp != null){
 		for(Departement dep : emp.getDepartements()){
 			dep.getEmployes().remove(emp);
 		}
-
+		}
+		if (emp != null){
 		employeRepository.delete(emp);
+		}
 	}
-
 	public void deleteContratById(int contratId) {
 		try{
 			

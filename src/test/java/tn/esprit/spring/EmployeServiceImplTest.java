@@ -150,10 +150,10 @@ public class EmployeServiceImplTest {
 		try
 		{
 			int idE = employeS.ajouterEmploye(
-					new Employe("Ahmed", "mrabet", "ahmed.mrabet@spring.tn", true, Role.TECHNICIEN));
+					new Employe("Ahmed", "mrabett", "ahmed.mrabet@spring.tn", true, Role.TECHNICIEN));
 		String prenomEmp = employeS.getEmployePrenomById(idE);
 		l.info("Prenom de lemploye est : "+prenomEmp);
-		assertThat(prenomEmp).isEqualTo("mrabet");
+		assertThat(prenomEmp).isEqualTo("mrabett");
 		employeS.deleteEmployeById(idE);
 		}catch (Exception e) {
 			l.error(String.format("Erreur dans Get EmployePrenom By Id : %s ",e));
@@ -214,7 +214,7 @@ public class EmployeServiceImplTest {
 				new Departement("info"));
 				
 		employeS.affecterEmployeADepartement(idE, idD);
-		l.info("Employe avec id=" + idE + " added successfully to Departement avec id=" + idD);
+		l.info("Employe added successfully to Departement ");
 		l.info("desaffectaion, de lemployer de departement");
 		employeS.desaffecterEmployeDuDepartement(idE, idD);
 		employeS.deleteEmployeById(idE);
