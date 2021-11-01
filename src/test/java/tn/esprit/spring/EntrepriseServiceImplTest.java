@@ -55,7 +55,7 @@ public class EntrepriseServiceImplTest   {
 		Entreprise entrepTest = new Entreprise ("entrepriseTest1","raisonTest1");
 		int entreId = entreService.ajouterEntreprise(entrepTest);
 		Assert.assertTrue(entreRep.findById(entreId).get()!= null);
-		Assert.assertTrue(entreRep.findById(entreId).get().getName().equals("entrepriseTest1"));
+		Assert.assertTrue (entreRep.findById(entreId).get().getName().equals("entrepriseTest1"));
 		L.info("Entreprise added successfully!");
 		entreService.deleteEntrepriseById(entreId);	
 	}
