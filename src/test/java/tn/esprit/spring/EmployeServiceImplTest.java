@@ -68,7 +68,9 @@ public class EmployeServiceImplTest {
 		this.contrat.setSalaire(2000);
 	}
 
-
+// test jenkins
+	
+	
 	@Test
 	public void ajouterContratTest() {
 		int id=employeS.ajouterEmploye(this.employe);
