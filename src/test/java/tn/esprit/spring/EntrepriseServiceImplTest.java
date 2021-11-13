@@ -3,7 +3,6 @@ package tn.esprit.spring;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -36,76 +35,58 @@ public class EntrepriseServiceImplTest   {
 	@Autowired
 	DepartementRepository departementRerpository;
 
-	private Entreprise entreprise;
-	private Departement department;
-	@Before
-	public void init(){
-		
-	}
-	@After
-	public void clean(){
-		
-	}
 	
+	Entreprise entreprise;
 	
+	//push test jenkins 
 	@Test
 	public void ajouterEntrepriseTest  ()
 	{
-		this.entreprise = new Entreprise();
-		this.entreprise.setName("entrepriseTest");
-		this.entreprise.setRaisonSocial("raisonTest");
-		int entreId = entreService.ajouterEntreprise(this.entreprise);
-		assertThat(entreId).isGreaterThan(0);
+		Entreprise entrepTest = new Entreprise ("entrepriseTest1","raisonTest1");
+		int entreId = entreService.ajouterEntreprise(entrepTest);
+		Assert.assertTrue(entreRep.findById(entreId).get()!= null);
+		Assert.assertTrue (entreRep.findById(entreId).get().getName().equals("entrepriseTest1"));
 		L.info("Entreprise added successfully!");
-		entreService.deleteEntrepriseById(entreId);
+		entreService.deleteEntrepriseById(entreId);	
 	}
 	
 	
 	@Test
 	public void affecterDepartementAEntrepriseTest ()
 	{
-		this.entreprise = new Entreprise();
-		this.entreprise.setName("entrepriseTest1");
-		this.entreprise.setRaisonSocial("raisonTest1");
-		
-		this.department= new Departement();
-		this.department.setName("departmenTest1");
-		int entreId=entreService.ajouterEntreprise(this.entreprise);
-		int depId=entreService.ajouterDepartement(this.department);
-		
+		Entreprise entreprise2 = new Entreprise ("entrepriseTest2","raisonTest2");
+		Departement department = new Departement("departmenTest1");
+		int entreId=entreService.ajouterEntreprise(entreprise2);
+		int depId=entreService.ajouterDepartement(department);
+		L.info("Departement added successfully to Entreprise ");
 		entreService.affecterDepartementAEntreprise(depId, entreId);
-	
-		L.info("Departement with id=" + depId + " added successfully to Entreprise with id=" + entreId);
-		
+        List<String> result = entreService.getAllDepartementsNamesByEntreprise(entreId);
+		assertThat(result).containsExactly("departmenTest1");
+		assertThat(result).size().isEqualTo(1);
 		entreService.deleteDepartementById(depId);
 		entreService.deleteEntrepriseById(entreId);
 	   
 	}
 	
 	@Test
-	public void deleteEntreprisebyId ()
+	public void deleteEntreprisebyIdTest ()
 	{
-		this.entreprise = new Entreprise();
-		this.entreprise.setName("entrepriseTest");
-		this.entreprise.setRaisonSocial("raisonTest");
-		int entreId = entreService.ajouterEntreprise(this.entreprise);
-		entreService.deleteEntrepriseById(entreId);
-		L.info("Entreprise deleted successfully!");
-	    Optional<Entreprise> e = entreRep.findById(entreId);
-	    Assert.assertFalse(e.isPresent());
-		
+	    Entreprise entreprise3 = new Entreprise ("entrepriseTest3","raisonTest3");
+		int idEntreprise=entreService.ajouterEntreprise(entreprise3);
+		Assert.assertTrue(entreRep.findById(idEntreprise).isPresent());
+		entreService.deleteEntrepriseById(idEntreprise);
+		Assert.assertFalse(entreRep.findById(idEntreprise).isPresent());
 	}
 	
 	@Test
-	public void getEntreprisebyId ()
+	public void getEntreprisebyIdTest ()
 	{
-		this.entreprise = new Entreprise();
-		this.entreprise.setName("entrepriseTest");
-		this.entreprise.setRaisonSocial("raisonTest");
-		int entreId = entreService.ajouterEntreprise(this.entreprise);
+		Entreprise entreprise4 = new Entreprise ("entrepriseTest4","raisonTest4");
+		int entreId = entreService.ajouterEntreprise(entreprise4);
 		entreService.getEntrepriseById(entreId);
-		assertThat(this.entreprise).isNotNull();
-		L.info("Entreprise with id=" + entreId +" geted successfully!");
+		L.info("Entreprise  geted successfully!");
+		assertThat(entreprise).isNull();
+		entreService.deleteEntrepriseById(entreId);
 	}
 	
 	@Test
@@ -114,10 +95,8 @@ public class EntrepriseServiceImplTest   {
 		int idDepartement=entreService.ajouterDepartement(depTest);
 		Assert.assertTrue(departementRerpository.findById(idDepartement).get()!= null);
 		Assert.assertTrue(departementRerpository.findById(idDepartement).get().getName().equals("production"));
-		L.info("Entreprise added successfully!");
-		entreService.deleteDepartementById(idDepartement);
-		
-		
+		L.info("Departement added successfully!");
+		entreService.deleteDepartementById(idDepartement);	
 	}
 	
 	@Test
@@ -128,7 +107,7 @@ public class EntrepriseServiceImplTest   {
 		entreService.deleteDepartementById(idDepartement);
 		Assert.assertFalse(departementRerpository.findById(idDepartement).isPresent());
 	}
-	//test test test
+	
 	@Test
 	public void  getAllDepartementsNamesByEntrepriseTest() {
 		this.entreprise = new Entreprise();
