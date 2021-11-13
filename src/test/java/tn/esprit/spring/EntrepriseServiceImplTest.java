@@ -36,19 +36,10 @@ public class EntrepriseServiceImplTest   {
 	DepartementRepository departementRerpository;
 
 	
-	
-	@Before
-	public void init(){
-		
-	}
-	
-	@After
-	public void clean(){
-		
-	}
-	
 	Entreprise entreprise;
 	
+	//push test jenkins
+        //push test jenkins automatique houssem
 	@Test
 	public void ajouterEntrepriseTest  ()
 	{
