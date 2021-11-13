@@ -38,7 +38,8 @@ public class EntrepriseServiceImplTest   {
 	
 	Entreprise entreprise;
 	
-	//push test jenkins 
+	//push test jenkins
+        //push test jenkins automatique houssem
 	@Test
 	public void ajouterEntrepriseTest  ()
 	{
