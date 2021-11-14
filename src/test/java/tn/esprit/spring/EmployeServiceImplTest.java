@@ -68,8 +68,8 @@ public class EmployeServiceImplTest {
 		this.contrat.setSalaire(2000);
 	}
 
-// test jenkins
-	
+
+// détection push jenkins	
 	
 	@Test
 	public void ajouterContratTest() {
