@@ -1,0 +1,23 @@
+version: '20.10.8'
+services:
+  mysql-standalone:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=
+      - MYSQL_DATABASE=timeSheetDevOps
+    ports:
+      - "3306:3306"
+  springboot-docker-container:
+    image: springboot-docker-container
+    ports:
+      - "8085:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone/timeSheetDevOps?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: ""
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    depends_on:
+      - mysql-standalone
