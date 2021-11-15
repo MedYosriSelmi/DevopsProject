@@ -35,7 +35,7 @@ public class EntrepriseServiceImplTest   {
 	@Autowired
 	DepartementRepository departementRerpository;
 
-	
+	// test validation finale
 	Entreprise entreprise;
 	
 	//push test jenkins
