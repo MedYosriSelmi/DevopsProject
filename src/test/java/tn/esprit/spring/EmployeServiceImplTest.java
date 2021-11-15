@@ -68,7 +68,7 @@ public class EmployeServiceImplTest {
 		this.contrat.setSalaire(2000);
 	}
 
-// detect push	
+// validation
 	
 	@Test
 	public void ajouterContratTest() {
